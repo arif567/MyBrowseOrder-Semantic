@@ -13,6 +13,17 @@
         "sourceTemplate": {
             "id": "@sap-ux/fiori-freestyle-writer:basic",
             "version": "0.21.10"
+        },
+        "dataSources": {
+            "defaultDataSource": {
+                "uri": "/sap/opu/odata/sap/ZA_MY_BROWSEORDER_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            }
         }
     },
     "sap.ui": {
@@ -32,7 +43,7 @@
         }
     },
     "sap.ui5": {
-        "flexEnabled": true,
+        "flexEnabled": false,
         "dependencies": {
             "minUI5Version": "1.120.13",
             "libs": {
@@ -50,6 +61,11 @@
                 "settings": {
                     "bundleName": "myui5app.i18n.i18n"
                 }
+            },
+            "": {
+                "dataSource": "defaultDataSource",
+                "preload": true,
+                "settings": {}
             }
         },
         "resources": {
@@ -61,20 +77,66 @@
         },
         "routing": {
             "config": {
-                "routerClass": "sap.m.routing.Router",
+                "routerClass": "sap.f.routing.Router",
                 "viewType": "XML",
                 "async": true,
                 "viewPath": "myui5app.view",
-                "controlAggregation": "pages",
-                "controlId": "app",
+                "controlAggregation": "beginColumnPages",
+                "controlId": "layout",
+                "bypassed": {
+                    "target": "notFound"
+                },
                 "clearControlAggregation": false
             },
             "routes": [
                 {
                     "name": "RouteMainView",
-                    "pattern": ":?query:",
+                    "pattern": "xxxxx",
                     "target": [
                         "TargetMainView"
+                    ]
+                },
+                {
+                    "name": "RouteMaster",
+                    "pattern": "",
+                    "target": [
+                        "TargetMaster"
+                    ]
+                },
+                {
+                    "name": "RouteDetail",
+                    "pattern": "Orders/{objectId}/:?query",
+                    "target": [
+                        "TargetMaster",
+                        "TargetDetail"
+                    ]
+                },
+                {
+                    "name": "RouteDetailObjectNotFound",
+                    "pattern": "detailobjectnotfound",
+                    "target": [
+                        "TargetDetailObjectNotFound"
+                    ]
+                },
+                {
+                    "name": "RouteNotFound",
+                    "pattern": "notfound",
+                    "target": [
+                        "TargetNotFound"
+                    ]
+                },
+                {
+                    "name": "RouteProcessor",
+                    "pattern": "processor",
+                    "target": [
+                        "TargetProcessor"
+                    ]
+                },
+                {
+                    "name": "RouteShipping",
+                    "pattern": "shipping",
+                    "target": [
+                        "TargetShipping"
                     ]
                 }
             ],
@@ -85,6 +147,52 @@
                     "clearControlAggregation": false,
                     "viewId": "MainView",
                     "viewName": "MainView"
+                },
+                "TargetMaster": {
+                    "viewType": "XML",
+                    "transition": "Slide",
+                    "clearControlAggregation": false,
+                    "viewId": "Master",
+                    "viewName": "Master",
+                    "level": 1
+                },
+                "TargetDetail": {
+                    "viewType": "XML",
+                    "transition": "Slide",
+                    "clearControlAggregation": false,
+                    "viewId": "Detail",
+                    "viewName": "Detail",
+                    "level": 1,
+                    "controlAggregation": "midColumnPages"
+                },
+                "TargetDetailObjectNotFound": {
+                    "viewType": "XML",
+                    "transition": "Slide",
+                    "clearControlAggregation": false,
+                    "viewId": "DetailObjectNotFound",
+                    "viewName": "DetailObjectNotFound",
+                    "controlAggregation": "midColumnPages"
+                },
+                "TargetNotFound": {
+                    "viewType": "XML",
+                    "transition": "Slide",
+                    "clearControlAggregation": false,
+                    "viewId": "NotFound",
+                    "viewName": "NotFound"
+                },
+                "TargetProcessor": {
+                    "viewType": "XML",
+                    "transition": "Slide",
+                    "clearControlAggregation": false,
+                    "viewId": "Processor",
+                    "viewName": "Processor"
+                },
+                "TargetShipping": {
+                    "viewType": "XML",
+                    "transition": "Slide",
+                    "clearControlAggregation": false,
+                    "viewId": "Shipping",
+                    "viewName": "Shipping"
                 }
             }
         },

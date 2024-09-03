@@ -7,7 +7,7 @@ sap.ui.define([
     function (Controller) {
         "use strict";
 
-        return Controller.extend("myui5app.controller.MainView", {
+        return Controller.extend("myui5app.controller.DetailObjectNotFound", {
             onInit: function () {
 
             }
