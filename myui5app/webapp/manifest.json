@@ -78,6 +78,7 @@
         "routing": {
             "config": {
                 "routerClass": "sap.f.routing.Router",
+                "type": "View",
                 "viewType": "XML",
                 "async": true,
                 "viewPath": "myui5app.view",
@@ -89,13 +90,7 @@
                 "clearControlAggregation": false
             },
             "routes": [
-                {
-                    "name": "RouteMainView",
-                    "pattern": "xxxxx",
-                    "target": [
-                        "TargetMainView"
-                    ]
-                },
+                
                 {
                     "name": "RouteMaster",
                     "pattern": "",
@@ -105,7 +100,7 @@
                 },
                 {
                     "name": "RouteDetail",
-                    "pattern": "Orders/{objectId}/:?query",
+                    "pattern": "Orders/{OrderNo}/:?query:",
                     "target": [
                         "TargetMaster",
                         "TargetDetail"
@@ -131,14 +126,8 @@
                     "target": [
                         "TargetProcessor"
                     ]
-                },
-                {
-                    "name": "RouteShipping",
-                    "pattern": "shipping",
-                    "target": [
-                        "TargetShipping"
-                    ]
                 }
+                
             ],
             "targets": {
                 "TargetMainView": {
@@ -151,15 +140,14 @@
                 "TargetMaster": {
                     "viewType": "XML",
                     "transition": "Slide",
-                    "clearControlAggregation": false,
+                    
                     "viewId": "Master",
                     "viewName": "Master",
                     "level": 1
                 },
                 "TargetDetail": {
-                    "viewType": "XML",
-                    "transition": "Slide",
-                    "clearControlAggregation": false,
+                  
+                    
                     "viewId": "Detail",
                     "viewName": "Detail",
                     "level": 1,
@@ -187,12 +175,11 @@
                     "viewId": "Processor",
                     "viewName": "Processor"
                 },
-                "TargetShipping": {
-                    "viewType": "XML",
-                    "transition": "Slide",
-                    "clearControlAggregation": false,
-                    "viewId": "Shipping",
-                    "viewName": "Shipping"
+                "shipping": {
+                    "viewName": "Shipping",
+                    "parent": "TargetDetail",
+                    "controlId": "iconTabFilterShipping",
+                    "controlAggregation": "content"
                 }
             }
         },

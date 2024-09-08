@@ -1,8 +1,34 @@
-<mvc:View controllerName="myui5app.controller.Shipping"
-    xmlns:mvc="sap.ui.core.mvc"
+<mvc:View
 	xmlns="sap.m"
-	displayBlock="true">
-	<Page id="page" title="{i18n>shipping}">
-        <content />
-    </Page>
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.ui.layout.form">
+	<VBox >
+       <f:SimpleForm id="SimpleFormShipAddress"
+			editable="false"
+			layout="ResponsiveGridLayout"
+			title="{i18n>detailShippingAddressTitle}"
+			labelSpanL="3"
+			labelSpanM="3"
+			emptySpanL="4"
+			emptySpanM="4"
+			columnsL="1"
+			columnsM="1" >
+        <f:content>
+        
+        <Label text="{i18n>detailName}" />
+				<Text text="{to_ShippingAddress/Name}" />
+				<Label text="{i18n>detailShippingStreet}" />
+				<Text text="{to_ShippingAddress/Street}" />
+				<Label text="{i18n>detailShippingZIPCodeCity}" />
+				<Text text="{to_ShippingAddress/PostalCode} {to_ShippingAddress/City}" />
+				<Label text="{i18n>detailShippingRegion}" />
+				<Text text="{to_ShippingAddress/ShipRegion}" />
+				<Label text="{i18n>detailShippingCountry}" />
+				<Text text="{to_ShippingAddress/Country}" />
+        
+        </f:content>
+        
+        </f:SimpleForm>
+    
+    </VBox>
 </mvc:View>

@@ -3,6 +3,178 @@
 	xmlns="sap.m"
 	displayBlock="true"
     xmlns:core="sap.ui.core"
+    xmlns:semantic="sap.f.semantic"
     >
+
+    <semantic:SemanticPage id="page"
+        core:require="{
+        formatMessage: 'sap/base/strings/formatMessage',
+        DateType: 'sap/ui/model/type/Date'
+        }"
+    
+    >
+
+        <semantic:titleHeading>
+            <Title >
+            </Title>
+        </semantic:titleHeading>
+
+        <semantic:content>
+
+            <List 
+             id="list"
+             width="auto"
+             class="sapFDynamicPageAlignContent"
+             
+             items= "{ 
+                        path:'/ZA_BO_SalesOrder_Header',
+                        parameters:{
+                        expand:'to_LineItems'},
+                        sorter:[{
+                                path:'OrderNo',
+                                descending:false
+                                }]
+                                
+                               
+                    }"
+             growing="true"
+             growingScrollToLoad="true"
+             updateFinished=""
+             selectionChange=""
+             mode="None"
+             >
+
+             <noData></noData>
+
+             <infoToolbar>
+                <Toolbar 
+                    active="true"
+                    id="filterBar"
+                    visible="true"
+                    press="" >
+                    <Title
+                        id="filterBarLabel"
+                        text="" 
+                    ></Title>
+                
+                </Toolbar>
+             </infoToolbar>
+
+             <headerToolbar>
+                <OverflowToolbar >
+                    <SearchField 
+                    id="searchField"
+                    showRefreshButton="true"
+                    width="100%" >
+
+                    <layoutData>
+                        <OverflowToolbarLayoutData 
+                        minWidth="150px"
+                        maxWidth="240px"
+                        shrinkable="true"
+                        priority="NeverOverflow">
+                        </OverflowToolbarLayoutData>
+                    </layoutData>
+                    </SearchField>
+                    <ToolbarSpacer ></ToolbarSpacer>
+                    <Button 
+                       id="filterButton"
+                       press=""
+                       icon="sap-icon://filter"
+                       type="Transparent"  >
+                    </Button>
+                    <Button 
+                       id="groupButton"
+                       press=""
+                       icon="sap-icon://group-2"
+                       type="Transparent"  >
+                    </Button>
+                    
+                    
+                
+                </OverflowToolbar>
+             </headerToolbar>
+
+             <items>
+                <ObjectListItem 
+                type="Active"
+                press="onSelectionChange"
+                title="{ 
+                    parts:[
+                        'i18n>commonItemTitle',
+                        'OrderNo'
+                        ],
+                        formatter: 'formatMessage'
+                 }" 
+
+                 number="{
+                    path:'OrderDate',
+                    type:'DateType',
+                    formatOptions:{style:'short'}
+                 }">
+
+                 <firstStatus>
+                    <ObjectStatus state="{
+                    
+                        parts:[
+                        {path:'RequiredDeliveryDate'},
+                        {path:'ShippingDate'},
+                        {path:'OrderNo'}
+                        ],
+                        formatter:'.formatter.deliveryState'
+                        
+                    
+                    }"
+
+                    text="{
+                        parts:[
+                         {path:'RequiredDeliveryDate'},
+                        {path:'ShippingDate'},
+                        {path:'OrderNo'}
+                        ],
+                        formatter:'.formatter.deliveryText'
+                    
+                    }"
+                    
+                    
+                    >
+                    
+                    </ObjectStatus>
+                 </firstStatus>
+
+                 <attributes>
+                    <ObjectAttribute id="companyName"
+                        text="{Customer}"
+                    ></ObjectAttribute>
+
+                    <ObjectAttribute title="{i18n>commonItemShipped}"
+                        text="{= ${ShippingDate}
+                        ? ${path: 'ShippingDate',
+                            type: 'DateType',
+                            formatOptions: {stype: 'medium'}}
+                            : ${i18n>commonItemNotYetShipped}
+                        
+                        
+                        }"
+                    ></ObjectAttribute>
+                 </attributes>
+
+
+
+                </ObjectListItem>
+             
+             </items>
+
+
+
+            
+
+            </List>
+
+
+        </semantic:content>
+    
+    
+    </semantic:SemanticPage>
     
 </mvc:View>

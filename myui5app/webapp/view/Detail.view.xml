@@ -1,8 +1,211 @@
-<mvc:View controllerName="myui5app.controller.Detail"
+<mvc:View xmlns:table="sap.ui.table" controllerName="myui5app.controller.Detail"
     xmlns:mvc="sap.ui.core.mvc"
 	xmlns="sap.m"
+    xmlns:semantic="sap.f.semantic"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+
 	displayBlock="true">
-	<Page id="page" title="{i18n>detail}">
-        <content />
-    </Page>
+    <semantic:SemanticPage id="page"
+    core:require="{
+        formatMessage: 'sap/base/strings/formatMessage',
+        DateType: 'sap/ui/model/type/Date'
+    }"
+    
+    >
+    
+        <semantic:titleHeading>
+            <Title 
+                text="{
+                    parts:[
+                    'i18n>commonItemTitle',
+                    'OrderNo'
+                    ],
+                    formatter:'formatMessage'
+                    }">
+            </Title>
+        
+        </semantic:titleHeading>
+
+        <semantic:headerContent>
+
+            <l:HorizontalLayout >
+                <l:VerticalLayout  class= "sapUiMediumMarginEnd">
+
+                <ObjectAttribute 
+                 title="{i18n>commonCustomerName}"
+                 text="{Customer}">
+                </ObjectAttribute>
+
+                <ObjectAttribute 
+                 title="{i18n>detailOrderDate}"
+                 text="{
+                    path: 'OrderDate',
+                    type:'DateType',
+                    formatOptions:{style:'medium'}
+                 }" >
+                </ObjectAttribute>
+
+                <ObjectAttribute 
+                   title="{i18n>commonItemShipped}"
+						text="{= ${ShippingDate} ?
+								${
+									path: 'ShippingDate',
+									type: 'DateType',
+									formatOptions: { style: 'medium' }
+								}
+							:${i18n>commonItemNotYetShipped} }"
+                    
+                ></ObjectAttribute>             
+                </l:VerticalLayout>
+
+                <l:VerticalLayout >
+                    <Label text="{i18n>priceText}"></Label>
+                    <ObjectNumber 
+                       number="{
+                                parts:[
+                                    {path:'NetValue'},
+                                    {path:'Currency'}
+                                ],
+                                type:'sap.ui.model.type.Currency',
+                                formatOptions:{
+                                showMeasure: false }
+                                }"
+                                unit="{currency}" ></ObjectNumber>
+                
+                </l:VerticalLayout>
+                
+            </l:HorizontalLayout>
+
+            <l:VerticalLayout >
+                <Label ></Label>
+                <ObjectNumber ></ObjectNumber>
+            </l:VerticalLayout>
+
+        </semantic:headerContent>
+
+        <semantic:content>
+            <l:VerticalLayout >
+            
+                <IconTabBar 
+                    id="iconTabBar"
+                    headerBackgroundDesign="Transparent"
+                    select=".onTabSelect"
+                    selectedKey="{detailView>/selectedTab}">
+
+                    <items>
+                        <IconTabFilter 
+                        id="iconTabFilterShipping"
+                        icon="sap-icon://shipping-status"
+                        tooltip=""
+                        key="shipping" >
+                        </IconTabFilter>
+
+                        <IconTabFilter 
+                        id="iconTabFilterProcessor"
+                        icon="sap-icon://employee"
+                        tooltip=""
+                        key="processor" >
+                        </IconTabFilter>
+
+                    </items>
+                
+                </IconTabBar>
+
+                <Table
+					id="lineItemsList"
+					class="sapUiSmallMarginTop"
+					width="auto"
+                    items="{
+                    path: 'to_LineItems'
+                    }"
+					
+					updateFinished=".onListUpdateFinished"
+					noDataText="{i18n>detailLineItemTableNoDataText}"
+					busyIndicatorDelay="{detailView>/lineItemTableDelay}">
+					<headerToolbar>
+						<Toolbar id="lineItemsToolbar">
+							<Title
+								id="lineItemsHeader"
+								text="{}"/>
+						</Toolbar>
+					</headerToolbar>
+					<columns>
+						<Column>
+							<Text text="{i18n>detailLineItemTableIDColumn}"/>
+						</Column>
+						<Column
+							minScreenWidth="Tablet"
+							demandPopin="true"
+							hAlign="End">
+							<Text text="{i18n>detailLineItemTableUnitPriceColumn}"/>
+						</Column>
+						<Column
+							minScreenWidth="Tablet"
+							demandPopin="true"
+							hAlign="End">
+							<Text text="{i18n>detailLineItemTableUnitQuantityColumn}"/>
+						</Column>
+						<Column
+							minScreenWidth="Tablet"
+							demandPopin="true"
+							hAlign="End">
+							<Text text="{i18n>detailLineItemTableTotalColumn}"/>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<ObjectIdentifier
+									title="ProductName"
+									text="{ProductName}"/>
+
+                                    <ObjectIdentifier
+									title="UnitPrice"
+									text="{UnitPrice}"/>
+
+                                    <ObjectIdentifier
+									title="Quantity"
+									text="{Quantity}"/>
+
+                                    <ObjectIdentifier
+									title="{OrderNo}"
+									text="{OrderNo}"/>
+								
+								
+								
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+            </l:VerticalLayout>        
+        </semantic:content>
+
+        <semantic:sendEmailAction>
+            <semantic:SendEmailAction 
+            id="shareEmail"
+            press=".onSendEmailPress"
+            ></semantic:SendEmailAction>
+        
+        </semantic:sendEmailAction>
+
+        <semantic:closeAction>
+            <semantic:CloseAction 
+            id="closeColumn"
+            press=".onCloseDetailPress">
+            </semantic:CloseAction>
+        </semantic:closeAction>
+
+        <semantic:fullScreenAction>
+            <semantic:FullScreenAction 
+            id="exitFullScreen"
+            press="toggleFullScreen"
+            ></semantic:FullScreenAction>
+        
+        </semantic:fullScreenAction>
+
+    
+    </semantic:SemanticPage>
+
+
 </mvc:View>
